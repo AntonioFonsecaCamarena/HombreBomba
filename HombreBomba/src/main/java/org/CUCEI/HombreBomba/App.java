@@ -1,48 +1,28 @@
 package org.CUCEI.HombreBomba;
 
-import com.majoolwip.engine.Game;
 import com.majoolwip.engine.Pix;
-import com.majoolwip.engine.Renderer;
 import com.majoolwip.engine.util.PixSettings;
-import com.majoolwip.engine.util.State;
 
 /**
- * Hello world!
- *
+ * Clase principal del Juego, que contiene el metodo Main. Esta clase extiende
+ * la interfaz abstracta com.majoolwip.engine.game para ser usada con el
+ * proyecto PixEngine de Ryan Moore.
+ * 
+ * @see https://github.com/Majoolwip/PixEngine Cuenta con una serie de Videos
+ *      explicando el desarrollo del motor grafico.
  */
-public class App extends Game
-{ 	
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    	Pix pix = new Pix(new App(), new PixSettings());
+public class App {
+
+	public static void main(String[] args) {
+		//nos preparamos
+		ContenedorDelJuego juego = new ContenedorDelJuego();
+		PixSettings settings = new PixSettings();
+		Pix pix = new Pix(juego, settings);
+
+		//Arrancamos!
 		pix.start();
-        
-        
-    }
 
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		this.setState(new State() {
-			
-			@Override
-			public void update(float dt) {
-				// TODO Auto-generated method stub
-				System.out.println("llueve");
-			}
-			
-			@Override
-			public void render(Renderer r) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+	
 	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		System.out.println("disj");
-	}
 }
