@@ -70,7 +70,6 @@ public abstract class ObjetoDelJuego {
 	}
 
 	public boolean colisionaArriba(ObjetoDelJuego objeto) {
-		System.out.println(getPosicionY() + "  - - " + (objeto.getPosicionY() + objeto.getAltura()));
 		if (getPosicionY() == (objeto.getPosicionY() + objeto.getAltura()) && enRangoX(objeto))
 			return true;
 		return false;

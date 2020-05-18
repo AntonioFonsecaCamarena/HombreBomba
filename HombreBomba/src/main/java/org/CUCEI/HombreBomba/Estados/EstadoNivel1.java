@@ -6,14 +6,14 @@ import org.CUCEI.HombreBomba.ContenedorDelJuego;
 import org.CUCEI.HombreBomba.Objetos.ObjetoDelJuego;
 import org.CUCEI.HombreBomba.Objetos.Enemigos.EnemigoBasico;
 import org.CUCEI.HombreBomba.Objetos.Jugador.Jugador;
-import org.CUCEI.HombreBomba.Objetos.Niveles.NivelBeta;
+import org.CUCEI.HombreBomba.Objetos.Niveles.Nivel1;
 
 import com.majoolwip.engine.Renderer;
 import com.majoolwip.engine.util.State;
 
 import lombok.Getter;
 
-public class EstadoBeta extends State {
+public class EstadoNivel1 extends State {
 	/**
 	 * Es la lista de objetos que interactuaran en el render.
 	 */
@@ -22,20 +22,10 @@ public class EstadoBeta extends State {
 	private ContenedorDelJuego juego;
 	private Jugador jugador;
 
-	public EstadoBeta(ContenedorDelJuego juego) {
+	public EstadoNivel1(ContenedorDelJuego juego) {
 		this.juego = juego;
-		// Añadimos al jugador
-		jugador = new Jugador(10, 7);
-		listaObjetos.add(jugador);
-
 		// Añadimos mapa
-		new NivelBeta().crearMapa(listaObjetos);
-
-		// Añadimos Enemigos
-		listaObjetos.add(new EnemigoBasico(10, 2, 1));
-		listaObjetos.add(new EnemigoBasico(0, 2, 5));
-		listaObjetos.add(new EnemigoBasico(15, 14, 2));
-		listaObjetos.add(new EnemigoBasico(11, 14, 3));
+		new Nivel1().crearMapa(listaObjetos);
 	}
 
 	@Override
@@ -45,6 +35,7 @@ public class EstadoBeta extends State {
 			listaObjetos.get(i).update(juego, dt);
 			// Validamos si el jugador esta en contacto con otro objeto.
 			if (listaObjetos.get(i).getNombre().equals("Jugador")) {
+				jugador = (Jugador) listaObjetos.get(i);
 				for (ObjetoDelJuego objeto : listaObjetos) {
 					if (!objeto.getNombre().equals("Jugador") && objeto.isSolido()) {
 						if (jugador.colisionaArriba(objeto))
@@ -57,6 +48,17 @@ public class EstadoBeta extends State {
 							jugador.setPosicionX(jugador.getPosicionX() - jugador.getVelocidad() - 1f);
 
 					}
+					// Validamos contacto con la meta
+					if (objeto.getNombre().equals("Meta") && jugador.estaTocando(objeto)) {
+						System.out.println("Ganaste!");
+						juego.setState(new EstadoNivel2(juego));
+					}
+
+					// Validamos contacto con enemigos
+					if (objeto.getNombre().equals("Enemigo") && jugador.estaTocando(objeto)) {
+						System.out.println("Perdiste!");
+						juego.setState(new EstadoNivel1(juego));
+					}
 
 				}
 			}
@@ -64,22 +66,22 @@ public class EstadoBeta extends State {
 			// Comportamiento de los Enemigos
 			if (listaObjetos.get(i).getNombre().equals("Enemigo")) {
 				EnemigoBasico enemigo = (EnemigoBasico) listaObjetos.get(i);
-
+				enemigo.seguirJugador(jugador);
 				for (ObjetoDelJuego objeto : listaObjetos) {
-					if (!objeto.getNombre().equals("Enemigo") && objeto.isSolido()) {
+					if (objeto.isSolido()) {
 						if (enemigo.colisionaArriba(objeto))
-							enemigo.setPosicionY(enemigo.getPosicionY() + enemigo.getVelocidad() + 1f);
+							enemigo.setPosicionY(enemigo.getPosicionY() + enemigo.getNivel() + 2f);
 						if (enemigo.colisionaAbajo(objeto))
-							enemigo.setPosicionY(enemigo.getPosicionY() - enemigo.getVelocidad() - 1f);
+							enemigo.setPosicionY(enemigo.getPosicionY() - enemigo.getNivel() - 2f);
 						if (enemigo.colisionaIzquierda(objeto))
-							enemigo.setPosicionX(enemigo.getPosicionX() + enemigo.getVelocidad() + 1f);
+							enemigo.setPosicionX(enemigo.getPosicionX() + enemigo.getNivel() + 2f);
 						if (enemigo.colisionaDerecha(objeto))
-							enemigo.setPosicionX(enemigo.getPosicionX() - enemigo.getVelocidad() - 1f);
+							enemigo.setPosicionX(enemigo.getPosicionX() - enemigo.getNivel() - 2f);
 
 					}
 
 				}
-				enemigo.seguirJugador(jugador);
+
 			}
 			// Validamos si el objeto esta activo, de no ser el caso lo eliminamos de la
 			// lista activa de objetos.

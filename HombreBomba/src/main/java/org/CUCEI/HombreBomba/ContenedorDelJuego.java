@@ -1,6 +1,6 @@
 package org.CUCEI.HombreBomba;
 
-import org.CUCEI.HombreBomba.Estados.EstadoBeta;
+import org.CUCEI.HombreBomba.Estados.EstadoNivel1;
 
 import com.majoolwip.engine.Game;
 import com.majoolwip.engine.Input;
@@ -15,7 +15,7 @@ public class ContenedorDelJuego extends Game {
 	@Override
 	public void init(Input input) {
 		// Inicializacion de la prueba beta
-		this.setState(new EstadoBeta(this));
+		this.setState(new EstadoNivel1(this));
 		this.input = input;
 	}
 

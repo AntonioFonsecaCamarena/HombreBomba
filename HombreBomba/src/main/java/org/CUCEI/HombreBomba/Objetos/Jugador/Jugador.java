@@ -13,8 +13,8 @@ public class Jugador extends ObjetoDelJuego {
 
 	public Jugador(float posicionX, float posicionY) {
 		this.setNombre("Jugador");
-		this.setPosicionX(posicionX * this.getTamanoTiles());
-		this.setPosicionY(posicionY * this.getTamanoTiles());
+		this.setPosicionX(posicionX * this.getTamanoTiles() + 8);
+		this.setPosicionY(posicionY * this.getTamanoTiles() + 8);
 		this.setAltura(this.getTamanoTiles() / 2);
 		this.setAnchura(this.getTamanoTiles() / 2);
 	}
@@ -37,7 +37,6 @@ public class Jugador extends ObjetoDelJuego {
 
 	@Override
 	public void render(ContenedorDelJuego juego, Renderer r) {
-		// TODO Auto-generated method stub
 		r.draw2DRect((int) getPosicionX(), (int) getPosicionY(), getAltura(), getAnchura(), 0xFF00FF00);
 	}
 
