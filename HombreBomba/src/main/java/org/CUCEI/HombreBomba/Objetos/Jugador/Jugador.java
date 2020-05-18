@@ -8,32 +8,30 @@ import org.CUCEI.HombreBomba.Objetos.ObjetoDelJuego;
 import com.majoolwip.engine.Renderer;
 
 public class Jugador extends ObjetoDelJuego {
-	
-	//Porpiedades del Jugador
-	private float VELOCIDAD = 0.5f;
+
+	// Porpiedades del Jugador
 
 	public Jugador(float posicionX, float posicionY) {
 		this.setNombre("Jugador");
-		// TODO lo del 16
-		this.setPosicionX(posicionX * 16);
-		this.setPosicionY(posicionY * 16);
-		this.setAltura(16);
-		this.setAnchura(16);
+		this.setPosicionX(posicionX * this.getTamanoTiles());
+		this.setPosicionY(posicionY * this.getTamanoTiles());
+		this.setAltura(this.getTamanoTiles() / 2);
+		this.setAnchura(this.getTamanoTiles() / 2);
 	}
 
 	@Override
-	public void update(ContenedorDelJuego juego,  float dt) {
+	public void update(ContenedorDelJuego juego, float dt) {
 		if (juego.getInput().isKeyDown(KeyEvent.VK_W)) {
-			setPosicionY(getPosicionY()-VELOCIDAD);
+			setPosicionY(getPosicionY() - this.getVelocidad());
 		}
 		if (juego.getInput().isKeyDown(KeyEvent.VK_S)) {
-			setPosicionY(getPosicionY()+VELOCIDAD);
+			setPosicionY(getPosicionY() + this.getVelocidad());
 		}
 		if (juego.getInput().isKeyDown(KeyEvent.VK_A)) {
-			setPosicionX(getPosicionX()-VELOCIDAD);
+			setPosicionX(getPosicionX() - this.getVelocidad());
 		}
 		if (juego.getInput().isKeyDown(KeyEvent.VK_D)) {
-			setPosicionX(getPosicionX()+VELOCIDAD);
+			setPosicionX(getPosicionX() + this.getVelocidad());
 		}
 	}
 
